@@ -1,0 +1,11 @@
+.health-chart {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chart-container {
+    margin: 1rem 2rem;
+    width: 40%;
+    min-width: 300px;
+}

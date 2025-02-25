@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records - Smart Health Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e3f2fd;
+            text-align: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 50px;
+            background: white;
+            padding: 20px;
+            margin: 50px auto;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        input, button, select {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        button {
+            background: #34bb02;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #018d26;
+        }
+        .hidden {
+            display: none;
+        }
+        .record {
+            border-left: 5px solid #0288d1;
+            padding: 10px;
+            margin: 10px 0;
+            background: #f1f8e9;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .logout-btn {
+            background: red;
+        }
+        .logout-btn:hover {
+            background: darkred;
+        }
+        select {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+<input type="date" id="nextCheckup" placeholder="Next Checkup Date">
+        <button onclick="addRecord()">Add Record</button>
+
+        <h3>Stored Records:</h3>
+        <input type="text" id="search" placeholder="Search records..." onkeyup="filterRecords()">
+        <button onclick="clearSearch()">Clear Search</button>
+
+        <h4>Sort By:</h4>
+        <select id="sortBy" onchange="loadRecords()">
+            <option value="name">Name</option>
+            <option value="mob">Mobile Number</option>
+            <option value="nextCheckup">Next Checkup</option>
+        </select>
+        <script>
+            // Your JavaScript logic for handling records goes here.
+        </script>
+    </body>
+    </html>
+    

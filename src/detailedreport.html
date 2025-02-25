@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .input-card, .report-card {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .input-card p, .report-card p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        input[type="text"], input[type="number"], select {
+            padding: 10px;
+            width: 100%;
+            margin: 5px 0 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid red;
+            border-radius: 8px;
+            background-color: #f8d7da;
+        }
+
+        /* Blinking effect for abnormal values */
+        .blinking {
+            animation: blink 1s step-start infinite;
+            color: red;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        /* Report Card Styling */
+        .report-card table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .report-card table, .report-card th, .report-card td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .report-card th {
+            background-color: #f0f0f0;
+        }
+
+        .report-card td {
+            background-color: #f9f9f9;
+        }
+
+        .report-card h2 {
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Medical Report</h1>
+
+        <!-- Input form for the user -->
+        <div class="input-card">
+            <h2>Enter Your Details</h2>
+            <p><strong>Name:</strong> <input type="text" id="name-input" placeholder="Enter your name"></p>
+            <p><strong>Age:</strong> <input type="number" id="age-input" placeholder="Enter your age" min="1"></p>
+            <p><strong>Gender:</strong> 
+                <select id="gender-input">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </p>
+
+            <h2>Enter Your Medical Parameters</h2>
+            <p><strong>BMI:</strong> <input type="number" id="bmi-input" placeholder="Enter your BMI" step="0.1"></p>
+            <p><strong>Weight (kg):</strong> <input type="number" id="weight-input" placeholder="Enter your weight" step="0.1"></p>
+            <p><strong>Height (cm):</strong> <input type="number" id="height-input" placeholder="Enter your height" min="50" step="1"></p>
+            <p><strong>Heart Rate (bpm):</strong> <input type="number" id="heart-rate-input" placeholder="Enter your heart rate" min="30" step="1"></p>
+            <p><strong>Blood Pressure (mmHg):</strong> <input type="text" id="bp-input" placeholder="Enter your BP (e.g., 120/80)"></p>
+            <p><strong>Glucose (mg/dL):</strong> <input type="number" id="glucose-input" placeholder="Enter your glucose level" step="1"></p>
+            <p><strong>Body Temperature (°C):</strong> <input type="number" id="temperature-input" placeholder="Enter your body temperature" step="0.1"></p>
+
+            <button id="generate-report">Generate Report</button>
+        </div>
+
+        <!-- Display medical report -->
+        <div class="report-card" id="report-card" style="display: none;">
+            <h2>Your Personal Information</h2>
+            <table>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td id="name-value"></td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td id="age-value"></td>
+                </tr>
+                <tr>
+                    <td>Gender</td>
+                    <td id="gender-value"></td>
+                </tr>
+            </table>
+
+            <h2>Your Medical Information</h2>
+            <table>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Value</th>
+                    <th>Status</th>
+                    <th>Home Remedy</th>
+                </tr>
+                <tr>
+                    <td>BMI</td>
+                    <td id="bmi-value"></td>
+                    <td id="bmi-status"></td>
+                    <td id="bmi-remedy"></td>
+                </tr>
+                <tr>
+                    <td>Weight</td>
+                    <td id="weight-value"></td>
+                    <td id="weight-status"></td>
+                    <td id="weight-remedy"></td>
+                </tr>
+                <tr>
+                    <td>Height</td>
+                    <td id="height-value"></td>
+                    <td id="height-status"></td>
+                    <td id="height-remedy"></td>
+                </tr>
+                <tr>
+                    <td>Heart Rate</td>
+                    <td id="heart-rate-value"></td>
+                    <td id="heart-rate-status"></td>
+                    <td id="heart-rate-remedy"></td>
+                </tr>
+                <tr>
+                    <td>Blood Pressure</td>
+                    <td id="bp-value"></td>
+                    <td id="bp-status"></td>
+                    <td id="bp-remedy"></td>
+                </tr>
+                <tr>
+                    <td>Glucose Level</td>
+                    <td id="glucose-value"></td>
+                    <td id="glucose-status"></td>
+                    <td id="glucose-remedy"></td>
+                </tr>
+                <tr>
+                    <td>Body Temperature</td>
+                    <td id="temperature-value"></td>
+                    <td id="temperature-status"></td>
+                    <td id="temperature-remedy"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Validation error messages -->
+        <div id="validation-errors" class="error-message"></div>
+    </div>
+
+    <script>
+        // Ideal values for validation
+        const idealValues = {
+            bmi: { min: 18.5, max: 24.9 },
+            weight: 60, // For height of 160 cm
+            heartRate: { min: 70, max: 75 },
+            bp: { systolic: 120, diastolic: 80 },
+            glucose: { min: 75, max: 100 },
+            temperature: { min: 37, max: 39 }, // in Celsius
+        };
+
+        // Function to validate the report data
+        function validateValues(reportData) {
+            let errors = [];
+
+            // Check BMI
+            if (reportData.bmi < idealValues.bmi.min || reportData.bmi > idealValues.bmi.max) {
+                errors.push({ param: "bmi", message: `BMI should be between ${idealValues.bmi.min} and ${idealValues.bmi.max}.` });
+            }
+
+            // Check Weight
+            if (reportData.weight !== idealValues.weight) {
+                errors.push({ param: "weight", message: `Weight should be ${idealValues.weight} kg for a height of 160 cm.` });
+            }
+
+            // Check Heart Rate
+            if (reportData.heartRate < idealValues.heartRate.min || reportData.heartRate > idealValues.heartRate.max) {
+                errors.push({ param: "heart-rate", message: `Heart rate should be between ${idealValues.heartRate.min} and ${idealValues.heartRate.max} bpm.` });
+            }
+
+            // Check Blood Pressure
+            const [systolic, diastolic] = reportData.bp.split('/').map(value => parseInt(value.trim()));
+            if (systolic !== idealValues.bp.systolic || diastolic !== idealValues.bp.diastolic) {
+                errors.push({ param: "bp", message: `Ideal Blood pressure should be ${idealValues.bp.systolic}/${idealValues.bp.diastolic} mmHg.` });
+            }
+
+            // Check Glucose
+            if (reportData.glucose < idealValues.glucose.min || reportData.glucose > idealValues.glucose.max) {
+                errors.push({ param: "glucose", message: `Glucose level should be between ${idealValues.glucose.min} and ${idealValues.glucose.max} mg/dL.` });
+            }
+
+            // Check Body Temperature
+            if (reportData.temperature < idealValues.temperature.min || reportData.temperature > idealValues.temperature.max) {
+                errors.push({ param: "temperature", message: `Ideal Body temperature should be between ${idealValues.temperature.min}°C and ${idealValues.temperature.max}°C` });
+            }
+
+            return errors;
+        }
+
+        // Function to get home remedy suggestions
+        function getHomeRemedy(param, value) {
+            const remedies = {
+                bmi: "Try to maintain a balanced diet and exercise regularly to achieve a healthy BMI.",
+                weight: "Try incorporating more physical activity into your daily routine, and consider consulting a nutritionist.",
+                heartRate: "To lower heart rate, try relaxation techniques like deep breathing or consult a doctor if symptoms persist.",
+                bp: "If high blood pressure, reduce salt intake, manage stress, and exercise regularly. Consult a doctor if needed.",
+                glucose: "For high glucose, avoid sugary foods, increase fiber intake, and consider consulting your healthcare provider.",
+                temperature: "For high temperature, drink plenty of fluids, rest, and monitor symptoms closely. Consult a doctor if fever persists."
+            };
+
+            return remedies[param] || "Consult a healthcare professional for advice.";
+        }
+
+        // Handle Generate Report button click
+        document.getElementById('generate-report').addEventListener('click', () => {
+            // Get user input
+            const name = document.getElementById('name-input').value;
+            const age = parseInt(document.getElementById('age-input').value);
+            const gender = document.getElementById('gender-input').value;
+            const bmi = parseFloat(document.getElementById('bmi-input').value);
+            const weight = parseFloat(document.getElementById('weight-input').value);
+            const height = parseInt(document.getElementById('height-input').value);
+            const heartRate = parseInt(document.getElementById('heart-rate-input').value);
+            const bp = document.getElementById('bp-input').value;
+            const glucose = parseInt(document.getElementById('glucose-input').value);
+            const temperature = parseFloat(document.getElementById('temperature-input').value);
+
+            // Validate inputs
+            if (!name || !age || !gender || !bmi || !weight || !height || !heartRate || !bp || !glucose || !temperature) {
+                document.getElementById('validation-errors').innerHTML = "All fields are required.";
+                return;
+            }
+
+            const reportData = {
+                name: name,
+                age: age,
+                gender: gender,
+                bmi: bmi,
+                weight: weight,
+                height: height,
+                heartRate: heartRate,
+                bp: bp,
+                glucose: glucose,
+                temperature: temperature
+            };
+
+            // Validate the entered data
+            const errors = validateValues(reportData);
+
+            // Alert user for any abnormalities
+            if (errors.length > 0) {
+                alert("Please note the following abnormal values:\n" + errors.map(error => error.message).join('\n'));
+            }
+
+            // Fill the personal info table
+            document.getElementById('name-value').innerText = name;
+            document.getElementById('age-value').innerText = age;
+            document.getElementById('gender-value').innerText = gender;
+
+            // Fill the medical info table
+            document.getElementById('bmi-value').innerText = bmi;
+            document.getElementById('weight-value').innerText = weight;
+            document.getElementById('height-value').innerText = height;
+            document.getElementById('heart-rate-value').innerText = heartRate;
+            document.getElementById('bp-value').innerText = bp;
+            document.getElementById('glucose-value').innerText = glucose;
+            document.getElementById('temperature-value').innerText = temperature;
+
+            // Add status for abnormal values (blinking if abnormal)
+            function setStatus(param, value) {
+                const statusElement = document.getElementById(`${param}-status`);
+                const remedyElement = document.getElementById(`${param}-remedy`);
+                if (value === "Abnormal") {
+                    statusElement.classList.add("blinking");
+                    statusElement.innerText = "Abnormal";
+                    remedyElement.innerText = getHomeRemedy(param, value);
+                } else {
+                    statusElement.classList.remove("blinking");
+                    statusElement.innerText = "Normal";
+                    remedyElement.innerText = "No remedy needed";
+                }
+            }
+
+            // Check if values are abnormal
+            setStatus('bmi', (bmi < idealValues.bmi.min || bmi > idealValues.bmi.max) ? "Abnormal" : "Normal");
+            setStatus('weight', (weight !== idealValues.weight) ? "Abnormal" : "Normal");
+            setStatus('heart-rate', (heartRate < idealValues.heartRate.min || heartRate > idealValues.heartRate.max) ? "Abnormal" : "Normal");
+            setStatus('bp', (bp.split('/')[0] !== idealValues.bp.systolic || bp.split('/')[1] !== idealValues.bp.diastolic) ? "Abnormal" : "Normal");
+            setStatus('glucose', (glucose < idealValues.glucose.min || glucose > idealValues.glucose.max) ? "Abnormal" : "Normal");
+            setStatus('temperature', (temperature < idealValues.temperature.min || temperature > idealValues.temperature.max) ? "Abnormal" : "Normal");
+
+            // Display the report card
+            document.getElementById('report-card').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
